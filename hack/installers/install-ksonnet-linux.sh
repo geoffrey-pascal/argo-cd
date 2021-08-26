@@ -5,7 +5,7 @@ set -eux -o pipefail
 
 KSONNET_VERSION=${ksonnet_version}
 case $ARCHITECTURE in
-  arm|arm64)
+  arm|arm64|ppc64le)
     set +o pipefail
     export GO111MODULE=off
     # Clone the repository in $GOPATH/src/github.com/ksonnet/ksonnet
@@ -17,6 +17,11 @@ case $ARCHITECTURE in
     ;;
   *)
     export TARGET_FILE=ks_${ksonnet_version}_linux_${ARCHITECTURE}.tar.gz
+    if [ "$ARCHITECTURE" == "ppc64le" ]; then
+	    export GIT_KS_REPO=https://github.com/geoffrey-pascal/ksonnet
+    else
+	    export GIT_KS_REPO=https://github.com/ksonnet/ksonnet
+    fi
     [ -e $DOWNLOADS/${TARGET_FILE} ] || curl -sLf --retry 3 -o $DOWNLOADS/${TARGET_FILE} https://github.com/ksonnet/ksonnet/releases/download/v${KSONNET_VERSION}/ks_${KSONNET_VERSION}_linux_${ARCHITECTURE}.tar.gz
     $(dirname $0)/compare-chksum.sh
     tar -C /tmp -xf $DOWNLOADS/${TARGET_FILE}
