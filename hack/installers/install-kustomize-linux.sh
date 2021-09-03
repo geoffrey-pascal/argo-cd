@@ -13,7 +13,7 @@ KUSTOMIZE_VERSION=${KUSTOMIZE_VERSION:-$kustomize4_version}
 # v3.3.0 = https://github.com/kubernetes-sigs/kustomize/releases/download/kustomize/v3.3.0/kustomize_v3.3.0_linux_amd64.tar.gz
 case $ARCHITECTURE in
   arm|arm64|ppc64le)
-      if [ "$ARCHITECTURE"== "ppc64le" ]; then
+      if [ "$ARCHITECTURE" == "ppc64le" ]; then
 	      export GIT_KUSTOMIZE_URL=https://github.com/geoffrey-pascal
       else
 	      export GIT_KUSTOMIZE_URL=https://github.com/kubernetes-sigs
